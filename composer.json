@@ -1,0 +1,7 @@
+{
+    "name": "blue-nest-digital/php-utils",
+    "description": "PHP utility libary",
+    "require": {
+        "php": ">=5.3.0",
+    }
+}
