@@ -1,3 +1,5 @@
+<?php 
+
 function executeShell($command) {
  $output = [];
  $returnVar = null;
