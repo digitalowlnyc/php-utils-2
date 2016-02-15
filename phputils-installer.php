@@ -68,7 +68,7 @@ function renameDirectory($oldDir, $newDir, $mode = "native") {
 function moveOldRelease($releaseDirectory) {
     if(file_exists($releaseDirectory))
     {
-        renameDirectory($releaseDirectory, $releaseDirectory . ".old");
+        renameDirectory($releaseDirectory, $releaseDirectory . ".old", "shell");
     }
 }
 
