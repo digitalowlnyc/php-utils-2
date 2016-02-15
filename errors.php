@@ -1,3 +1,5 @@
+<?php 
+
 function errorsOn() {
 println("Error reporting has been turned on");
 ini_set('display_errors', 1);
