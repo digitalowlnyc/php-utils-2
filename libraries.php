@@ -1,9 +1,9 @@
 <?php
 echo "Including phputils...";
-include_once("print.php");
-include_once("errors.php");
-include_once("exec.php");
-include_once("download.php");
-include_once("filesystem.php");
-echo "Done loading phputils...";
+require_once("print.php");
+require_once("errors.php");
+require_once("exec.php");
+require_once("download.php");
+require_once("filesystem.php");
+println("Done loading phputils...");
 
