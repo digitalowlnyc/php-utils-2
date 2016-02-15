@@ -42,13 +42,26 @@ function executeShell($command) {
     printDump(execReturnValueToText($returnVar));
 }
 
-function renameDirectory($oldDir, $newDir) {
-    $result = rename($oldDir, $newDir);
-
-    if($result === false) {
-        println("Could not rename $oldDir to $newDir");
+function renameDirectory($oldDir, $newDir, $mode = "native") {
+    if($mode === "native") {
+        $result = rename($oldDir, $newDir);
+        if($result === false) {
+            println("Could not rename $oldDir to $newDir");
+        } else {
+            println("Renamed $oldDir to $newDir");
+        }
+    } else if($mode === "shell") {
+        println("Using 'mv' command to move files'");
+        executeShell("mv $oldDir $newDir");
+        
+        $newFileExists = file_exists($newDir);
+        
+        if($newFileExists === false) {
+            println("Error moving file: new file exists?: $newFileExists");
+        }
+        
     } else {
-        println("Renamed $oldDir to $newDir");
+        throw new Exception("Unsupported rename mode: $mode");
     }
 }
 
@@ -79,7 +92,9 @@ function installRelease($release) {
 
     executeShell("unzip $filename");
 
-    renameDirectory($baseFilename, $releaseDirectory);
+    if(file_exists($releaseDirectory))
+        moveOldRelease($releaseDirectory);
+    renameDirectory($baseFilename, $releaseDirectory, "shell");
 }
 
 installRelease("1");
