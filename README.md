@@ -1,5 +1,5 @@
 # php-utils
 PHP utility library
 
-[Usage]
+#### Usage
 require("phputils/libaries.php");
