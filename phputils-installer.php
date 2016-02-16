@@ -106,5 +106,7 @@ function installRelease($release) {
         moveOldRelease($releaseDirectory);
     renameDirectory($baseFilename, $releaseDirectory, "shell");
 }
+assertCommandExists("mv"); // sanity check
+assertCommandExists("wget");
 assertCommandExists("zip");
 installRelease("1");
