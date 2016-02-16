@@ -15,6 +15,7 @@ $includes = [
     "exec.php",
     "download.php",
     "filesystem.php",
+    "sessions.php",
 ];
 
 foreach($includes as $include)
