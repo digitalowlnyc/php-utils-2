@@ -1,15 +1,30 @@
 <?php
-  echo "Including phputils...";
-  
-  require_once("print.php");
-  println("print.php loaded");
-  require_once("errors.php");
-  println("errors.php loaded");
-  require_once("exec.php");
-  println("exec.php loaded");
-  require_once("download.php");
-  println("download.php loaded");
-  require_once("filesystem.php");
-  println("filesystem.php loaded");
-  
-  println("Done loading phputils...");
+$_phputils_settings = [
+    "do_debug_load" => true
+];
+
+if($_phputils_settings["do_debug_load"]) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+    echo "Including phputils...";
+};
+$includes = [
+    "print.php",
+    "errors.php",
+    "exec.php",
+    "download.php",
+    "filesystem.php",
+];
+
+foreach($includes as $include)
+{
+    if($_phputils_settings["do_debug_load"])
+        echo "Including '$include'...";
+    require_once($include);
+
+    if($_phputils_settings["do_debug_load"])
+        echo "... included '$include'<br>";
+}
+
+println("Done loading phputils...");
