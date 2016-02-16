@@ -7,6 +7,16 @@ function println($output) {
     echo "$output<br>";
 }
 
+function assertCommandExists($cmd) {
+    $returnVal = shell_exec("which $cmd");
+    $exists = strlen($returnVal) != 0;
+    if($exists) {
+        echo "Command '$cmd' exists, ok";
+    } else {
+        die("This installer requires access to '$cmd' command\n");
+    }
+}
+
 function printDump($output) {
     echo "<pre>";
     var_dump($output);
@@ -96,5 +106,5 @@ function installRelease($release) {
         moveOldRelease($releaseDirectory);
     renameDirectory($baseFilename, $releaseDirectory, "shell");
 }
-
+assertCommandExists("zip");
 installRelease("1");
