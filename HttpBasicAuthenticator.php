@@ -21,14 +21,10 @@ class HttpBasicAuthenticator
     const BACKOFF_DURATION_SECONDS = 120;
     const REAUTHENTICATE_AFTER_MINUTES = 20;
 
-
-    public function __construct()
-    {
-    }
-    
     public function __construct($username, $password)
     {
-        $this->credentials[$username] = $password;
+        if($username && $password)
+            $this->credentials[$username] = $password;
     }
 
     private function nextLoginAt($time) {
