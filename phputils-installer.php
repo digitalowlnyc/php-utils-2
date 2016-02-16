@@ -109,4 +109,4 @@ function installRelease($release) {
 assertCommandExists("mv"); // sanity check
 assertCommandExists("wget");
 assertCommandExists("zip");
-installRelease("1");
+installRelease("master");
