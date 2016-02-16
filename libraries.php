@@ -16,6 +16,7 @@ $includes = [
     "download.php",
     "filesystem.php",
     "sessions.php",
+    "boolean.php",
 ];
 
 foreach($includes as $include)
