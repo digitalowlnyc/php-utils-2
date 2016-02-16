@@ -1,6 +1,6 @@
 <?php
 $_phputils_settings = [
-    "do_debug_load" => true
+    "do_debug_load" => false
 ];
 
 if($_phputils_settings["do_debug_load"]) {
