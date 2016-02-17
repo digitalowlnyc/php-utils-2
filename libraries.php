@@ -3,6 +3,8 @@ $_phputils_settings = [
     "do_debug_load" => false
 ];
 
+include_once("includes.php");
+
 if($_phputils_settings["do_debug_load"]) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -19,14 +21,5 @@ $includes = [
     "boolean.php",
 ];
 
-foreach($includes as $include)
-{
-    if($_phputils_settings["do_debug_load"])
-        echo "Including '$include'...";
-    require_once($include);
-
-    if($_phputils_settings["do_debug_load"])
-        echo "... included '$include'<br>";
-}
-
-println("Done loading phputils...");
+requireMultiple($includes, $_phputils_settings["do_debug_load"]);
+println("Done loading phputils...<br>");
