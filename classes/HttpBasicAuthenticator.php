@@ -1,6 +1,6 @@
 <?php
 
-require_once("boolean.php");
+require_once("../boolean.php");
 
 // Usage: new HttpBasicAuthenticator($username, $pass)->handle();
 class HttpBasicAuthenticator
