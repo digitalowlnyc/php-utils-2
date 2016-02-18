@@ -6,13 +6,13 @@
  * Time: 1:46 AM
  */
 
-function requireMultiple($includes, $debug = false)
+function requireMultiple($includes, $directory, $debug = false)
 {
     foreach ($includes as $include) {
         if ($debug)
             echo "Including '$include'...";
 
-        require_once($include);
+        require_once($directory ."/" . $include);
 
         if ($debug)
             echo "... included '$include'<br>";

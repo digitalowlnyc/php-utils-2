@@ -3,6 +3,8 @@ $_phputils_settings = [
     "do_debug_load" => false
 ];
 
+require_once(dirname(__DIR__) . '/php-utils/rootpath.php');
+
 include_once("includes.php");
 
 if($_phputils_settings["do_debug_load"]) {
@@ -21,5 +23,5 @@ $includes = [
     "boolean.php",
 ];
 
-requireMultiple($includes, $_phputils_settings["do_debug_load"]);
+requireMultiple($includes, ROOT_PATH, $_phputils_settings["do_debug_load"]);
 println("Done loading phputils libraries...<br>");
