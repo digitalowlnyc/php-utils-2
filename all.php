@@ -6,7 +6,7 @@
  * Time: 2:01 AM
  */
 
-require_once(dirname(__DIR__) . '/php-utils/rootpath.php');
+require_once(dirname(__DIR__) . '/phputils/rootpath.php');
 
 echo "Loading from: " . ROOT_PATH . "<br>";
 echo "Loading all...<br>";

@@ -3,7 +3,7 @@ $_phputils_settings = [
     "do_debug_load" => false
 ];
 
-require_once(dirname(__DIR__) . '/php-utils/rootpath.php');
+require_once(dirname(__DIR__) . '/phputils/rootpath.php');
 
 include_once("includes.php");
 

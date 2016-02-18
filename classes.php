@@ -6,7 +6,7 @@
  * Date: 2/18/16
  * Time: 1:45 AM
  */
-require_once(dirname(__DIR__) . '/php-utils/rootpath.php');
+require_once(dirname(__DIR__) . '/phputils/rootpath.php');
 
 require_once("includes.php");
 
