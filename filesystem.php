@@ -34,3 +34,24 @@ function renameDirectory($oldDir, $newDir, $mode = "native") {
         throw new Exception("Unsupported rename mode: $mode");
     }
 }
+
+// Credit: http://php.net/manual/en/function.filesize.php#106569
+function bytesToString($byteCount, $decimals = 2) {
+    $sz = 'BKMGTP';
+    $factor = floor((strlen($byteCount) - 1) / 3);
+    return sprintf("%.{$decimals}f", $byteCount / pow(1024, $factor)) . @$sz[$factor];
+}
+
+function fileGetSize($filename, $abbreviate = true) {
+    if($filename === null || strlen($filename) === 0)
+        throw new Exception("Invalid input for fileGetSize: " . $filename);
+    $sizeInBytes = filesize($filename);
+
+    if($abbreviate)
+        $size = bytesToString($sizeInBytes);
+    else
+        $size = (String)$sizeInBytes;
+
+    return $size;
+
+}
