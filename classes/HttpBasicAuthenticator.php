@@ -1,6 +1,7 @@
 <?php
 
-require_once("../boolean.php");
+set_include_path("../");
+include "../boolean.php";
 
 // Usage: new HttpBasicAuthenticator($username, $pass)->handle();
 class HttpBasicAuthenticator
