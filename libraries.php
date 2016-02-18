@@ -9,7 +9,7 @@ if($_phputils_settings["do_debug_load"]) {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    echo "Including phputils...";
+    echo "Loading phputils libraries...";
 };
 $includes = [
     "print.php",
@@ -22,4 +22,4 @@ $includes = [
 ];
 
 requireMultiple($includes, $_phputils_settings["do_debug_load"]);
-println("Done loading phputils...<br>");
+println("Done loading phputils libraries...<br>");

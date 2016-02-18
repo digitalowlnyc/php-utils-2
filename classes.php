@@ -10,3 +10,4 @@ requireMultiple([
     "./classes/FileReader.php",
     "./classes/FileWriter.php",
 ], true);
+println("Done loading phputils classes...<br>");
