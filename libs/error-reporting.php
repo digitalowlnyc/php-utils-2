@@ -1,7 +1,5 @@
 <?php
 
-require_once("libraries.php");
-
 function errorsOn() {
     println("Error reporting has been turned on");
     ini_set('display_errors', 1);
@@ -49,3 +47,18 @@ function errorLogRecentEntries($numberOfEntries = 5) {
       };
   };
 };
+
+function registerDefaultErrorHandler($errNo, $errStr, $errFile, $errLine) {
+    if (error_reporting() == 0) { // check for @ an ignore
+        return;
+    }
+    $msg = "PHPUTILS ERROR HANDLER: $errStr in $errFile on line $errLine";
+    if ($errNo == E_NOTICE || $errNo == E_WARNING) {
+        throw new ErrorException($msg, $errNo);
+    } else {
+        echo $msg;
+    }
+
+    set_error_handler('errorHandler');
+}
+

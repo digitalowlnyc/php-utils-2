@@ -1,0 +1,9 @@
+packages
+test
+
+ignored
+
+.hg/
+
+.idea
+.DS_Store

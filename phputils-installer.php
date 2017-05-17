@@ -7,11 +7,13 @@ function println($output) {
     echo "$output<br>";
 }
 
-function assertCommandExists($cmd) {
+function assertCommandExists($cmd, $verbose = false) {
     $returnVal = shell_exec("which $cmd");
     $exists = strlen($returnVal) != 0;
     if($exists) {
-        echo "Command '$cmd' exists, ok";
+        if($verbose) {
+            echo "Command '$cmd' exists, ok";
+        }
     } else {
         die("This installer requires access to '$cmd' command\n");
     }
@@ -28,6 +30,9 @@ function execReturnValueToText($intValue) {
     switch($intValue) {
         case 0:
             $text = "Success";
+            break;
+        case 1:
+            $text = "Failure";
             break;
         case 127:
             $text = "Command not found";
@@ -52,15 +57,15 @@ function executeShell($command) {
     printDump(execReturnValueToText($returnVar));
 }
 
-function renameDirectory($oldDir, $newDir, $mode = "native") {
-    if($mode === "native") {
+function renameDirectory($oldDir, $newDir, $moveMode = "php") {
+    if($moveMode === "php") {
         $result = rename($oldDir, $newDir);
         if($result === false) {
             println("Could not rename $oldDir to $newDir");
         } else {
             println("Renamed $oldDir to $newDir");
         }
-    } else if($mode === "shell") {
+    } else if($moveMode === "shell") {
         println("Using 'mv' command to move files'");
         executeShell("mv $oldDir $newDir");
         
@@ -71,42 +76,80 @@ function renameDirectory($oldDir, $newDir, $mode = "native") {
         }
         
     } else {
-        throw new Exception("Unsupported rename mode: $mode");
+        throw new Exception("Unsupported rename mode: $moveMode");
     }
 }
 
-function moveOldRelease($releaseDirectory) {
-    if(file_exists($releaseDirectory))
+// Credit: http://php.net/manual/en/function.rmdir.php#110489
+function delTree($dir) {
+    $files = array_diff(scandir($dir), array('.','..'));
+    foreach ($files as $file) {
+        (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
+    }
+    return rmdir($dir);
+}
+
+function archiveReleases($releaseDirectory) {
+    echo "Archiving...<br>";
+    $archivedReleaseDirectory = $releaseDirectory . ".old";
+    if(file_exists($archivedReleaseDirectory))
     {
-        renameDirectory($releaseDirectory, $releaseDirectory . ".old", "shell");
+        if(is_dir($archivedReleaseDirectory))
+            delTree($archivedReleaseDirectory);
+        else
+            unlink($archivedReleaseDirectory);
+    }
+    if(file_exists($releaseDirectory)) {
+        renameDirectory($releaseDirectory, $archivedReleaseDirectory, "shell");
     }
 }
 
-function installRelease($release) {
-
-    $baseFilename = "php-utils-$release";
-    $filename = $baseFilename . ".zip";
-
-    if(file_exists($filename))
-        moveOldRelease($filename);
-
-    $url = "https://github.com/heliosbryan/php-utils/archive/$release.zip";
-    $releaseDirectory = "phputils";
-
-    executeShell("wget $url -O $filename");
-
-    if(!file_exists($filename))
-        die("File was not downloaded!");
-
-    moveOldRelease($releaseDirectory);
-
-    executeShell("unzip $filename");
-
-    if(file_exists($releaseDirectory))
-        moveOldRelease($releaseDirectory);
-    renameDirectory($baseFilename, $releaseDirectory, "shell");
+function getDirectoryNames($libName, $release) {
+    return array(
+        "release-dir" => "",
+        "zip-dir" => "",
+        "zip-file" => "",
+        "lib-dir" => ""
+    );
 }
-assertCommandExists("mv"); // sanity check
-assertCommandExists("wget");
-assertCommandExists("zip");
-installRelease("master");
+
+function installRelease($libName, $release, $gitAccount, $directory = ".") {
+    // e.g. "/my_install_dir"
+    chdir($directory);
+
+    // e.g. "/my_install_dir/php-utils_master"
+    $releaseVersionedFilename = $libName . "_" . $release;
+    $releaseZipDirectory = "releases";
+
+    // e.g. "/my_install_dir/php-utils_master.zip"
+    $releaseVersionedZipFilename = $releaseVersionedFilename . ".zip";
+
+    // Archive previous release zip file
+    archiveReleases($releaseVersionedZipFilename);
+
+    $url = "https://github.com/" . $gitAccount . "/" . $libName . "/archive/$release.zip";
+
+    $releaseDirectory = $libName;
+
+    $releaseZipStoragePath = $releaseZipDirectory . "/" . $releaseVersionedZipFilename;
+    executeShell("wget $url -O $releaseZipStoragePath");
+
+    if(!file_exists($releaseZipStoragePath))
+        die("File was not downloaded properly!");
+
+    // Archive the current release's directory
+    archiveReleases($releaseDirectory);
+
+    executeShell("unzip $releaseZipStoragePath -d unzipped");
+
+    // e.g. "/my_install_dir/unzipped"
+    renameDirectory("unzipped", $releaseDirectory, "shell");
+    //renameDirectory($releaseVersionedFilename, $releaseDirectory, "shell");
+}
+
+foreach(array("mv", "wget", "zip") as $command) {
+    assertCommandExists($command); // sanity check
+}
+
+$directory = "testinstalls";
+installRelease("php-utils", "master", "heliosbryan", $directory);

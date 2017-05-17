@@ -5,4 +5,4 @@
  * Date: 2/18/16
  * Time: 2:39 AM
  */
-define('ROOT_PATH', dirname(__DIR__) . '/phputils');
+define('ROOT_PATH', dirname(__DIR__) . '/php-utils');

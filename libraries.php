@@ -1,27 +1,32 @@
 <?php
-$_phputils_settings = [
-    "do_debug_load" => false
-];
 
-require_once(dirname(__DIR__) . '/phputils/rootpath.php');
-
-include_once("includes.php");
-
-if($_phputils_settings["do_debug_load"]) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+if(phputilsVerboseLoad()) {
     echo "Loading phputils libraries...";
 };
+
+if(phputilsVerboseLoad()) {
+    echo "Done loading base phputils libraries...<br>";
+}
+
 $includes = [
-    "print.php",
-    "errors.php",
+    "array.php",
+    "strings.php",
+    "archival.php",
+    "strings.php",
+    "reflection.php",
+    "error-reporting.php",
     "exec.php",
     "download.php",
     "filesystem.php",
     "sessions.php",
     "boolean.php",
+    "tables.php",
+    "dom.php",
+    "csv-utils.php",
+    "print.php"
 ];
 
-requireMultiple($includes, ROOT_PATH, $_phputils_settings["do_debug_load"]);
-println("Done loading phputils libraries...<br>");
+requireMultiple($includes, ROOT_PATH . "/libs", phputilsVerboseLoad());
+if(phputilsVerboseLoad()) {
+    echo "Done loading phputils libraries...<br>";
+}
