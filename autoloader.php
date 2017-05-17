@@ -15,5 +15,3 @@ if(phputilsVerboseLoad()) {
 }
 
 require_once ROOT_PATH . "/libraries.php";
-
-echo strYesNo(false);
