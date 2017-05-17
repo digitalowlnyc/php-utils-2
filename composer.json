@@ -1,5 +1,5 @@
 {
-    "name": "blue-nest-digital/php-utils",
+    "name": "bluenest/php-utils",
     "description": "PHP utility libary",
     "require": {
         "php": ">=5.3.0"
