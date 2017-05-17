@@ -3,5 +3,10 @@
     "description": "PHP utility libary",
     "require": {
         "php": ">=5.3.0"
+    },
+    "autoload": {
+        "files": [
+            "autoloader.php"
+        ]
     }
 }
